@@ -1,28 +1,57 @@
 var mang    = require("mongoose");
 var markSch = new mang.Schema({
     tamil : {
-        type : Number,
-        default : 0
+        score : {
+            type : Number,
+            default : null
+        },
+        icon : {
+            type: String,
+            default : "fas fa-gopuram"
+        }
     },
     english : {
-        type : Number,
-        default : 0
+        score : {
+            type : Number,
+            default : null
+        },
+        icon : {
+            type: String,
+            default : "fab fa-amilia"
+        }
     },
     maths : {
-        type : Number,
-        default : 0
+        score : {
+            type : Number,
+            default : null
+        },
+        icon : {
+            type: String,
+            default : "fas fa-calculator"
+        }
     },
     science : {
-        type : Number,
-        default : 0
+        score : {
+            type : Number,
+            default : null
+        },
+        icon : {
+            type: String,
+            default : "fas fa-atom"
+        }
     },
     social : {
-        type : Number,
-        default : 0
+        score : {
+            type : Number,
+            default : null
+        },
+        icon : {
+            type: String,
+            default : "fas fa-archway"
+        }
     },
     stud_id : {
-        type : mang.Schema.Types.ObjectId,
-        ref : "User"
+        type : String
     }
 });
 var mark = mang.model("mark",markSch);

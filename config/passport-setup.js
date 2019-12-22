@@ -32,7 +32,7 @@ passport.deserializeUser(function(id,done){
     })
 })
     
-passport.use(new googleStrategy({
+passport.use("google-student",new googleStrategy({
     callbackURL : "/auth/profile",
     clientID : key.google.clientID,
     clientSecret : key.google.clientSecret
@@ -63,6 +63,55 @@ passport.use(new googleStrategy({
                                 console.log("Created new user");
                                 console.log(cUser);
                                 done(null, cUser);
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+}))
+
+passport.use("google-staff",new googleStrategy({
+    callbackURL : "/auth/profile-staff",
+    clientID : key.google.clientID,
+    clientSecret : key.google.clientSecret
+},function(accessToken, refreshToken, profile, done){
+    console.log(profile);
+    User.findOne({googleId:profile.id},function(err,currentUser){
+        if(currentUser){
+            User.deleteOne({googleId:profile.id},function(derr){
+                staff.create({
+                    username : profile.displayName,
+                    googleId : profile.id,
+                    image : profile.photos[0].value
+                },function(err,cStaff){
+                    console.log("Created new user");
+                    console.log(cStaff);
+                    done(null, cStaff);
+                }) 
+            })
+        }
+        else {
+            staff.findOne({googleId:profile.id},function(err1,currentUser1){
+                if(currentUser1){
+                    done(null, currentUser1);
+                }
+                else{
+                    admin.findOne({googleId:profile.id},function(err2,currentUser2){
+                        if(currentUser2){
+                            console.log("current user2 : " + currentUser2);
+                            done(null, currentUser2);
+                        }
+                        else{
+                            staff.create({
+                                username : profile.displayName,
+                                googleId : profile.id,
+                                image : profile.photos[0].value
+                            },function(err,cStaff){
+                                console.log("Created new user");
+                                console.log(cStaff);
+                                done(null, cStaff);
                             })
                         }
                     })

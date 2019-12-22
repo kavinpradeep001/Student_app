@@ -15,7 +15,7 @@
                     <div class="row text-info">
                         <div class="col-2"><h1><i class="far fa-calendar-alt"></i></h1></div>
                         <div class="col-10">
-                            <div><b>10</b></div>
+                            <div><b><%= attendance.present.length + attendance.absent.length %></b></div>
                             <div><em>No. of classes conducted</em></div>      
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                     <div class="row text-success">
                         <div class="col-2"><h1><i class="far fa-calendar-check"></i></h1></div>
                         <div class="col-10">
-                            <div><b>5</b></div>
+                            <div><b><%= attendance.present.length %></b></div>
                             <div><em>No. Present</em></div>      
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                     <div class="row text-danger">
                         <div class="col-2"><h1><i class="far fa-calendar-times"></i></h1></div>
                         <div class="col-10">
-                            <div><b>5</b></div>
+                            <div><b><%= attendance.absent.length %></b></div>
                             <div><em>No. Absent</em></div>      
                         </div>
                     </div>

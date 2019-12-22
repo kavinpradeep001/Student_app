@@ -1,17 +1,14 @@
 var mang    = require("mongoose");
-var adminSch = new mang.Schema({
-    present : {
-        type : Number,
-        default : 0
+var attendanceSch = new mang.Schema({
+    present :{
+        type: Array,
+        default: []
     },
-    absent : {
-        type : Number,
-        default : 0
+    absent :{
+        type: Array,
+        default: []
     },
-    stud_id : {
-        type : mang.Schema.Types.ObjectId,
-        ref : "User"
-    }
+    stud_id : String
 });
-var admin = mang.model("admin",adminSch);
-module.exports = admin;
+var attendance = mang.model("attendance",attendanceSch);
+module.exports = attendance;
