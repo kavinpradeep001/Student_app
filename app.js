@@ -6,6 +6,7 @@ var exp  = require("express"),
     passportSetup = require("./config/passport-setup"),
     attendance = require("./models/attendancemodel"),
     mark = require("./models/markmodel"),
+    staff = require("./models/staffmodel"),
     app  = exp();
 mongoose.connect("mongodb://localhost/sstudent_app",{useNewUrlParser : true , useUnifiedTopology: true },function(){
     console.log("connected");
@@ -90,6 +91,17 @@ app.get("/auth/profile-attendance",function(req,res){
         
     })
 })
+app.get("/auth/profile-attendance1",function(req,res){
+    attendance.findOne({stud_id:req.user.googleId},function(err,fAttendance){
+        if(fAttendance){
+            res.render("student/attendance1",{attendance:fAttendance});
+        }
+        else{
+            res.render("student/attendance1",{attendance:dAttendance});
+        }
+        
+    })
+})    
 app.get("/auth/profile-mark",function(req,res){
     mark.findOne({stud_id:req.user.googleId},function(err,fMark){
         if(fMark){
@@ -189,6 +201,11 @@ app.post("/auth/profile-attendance-update",async function(req,res){
         }
     })
     res.redirect("back");
+})
+app.post("/auth/profile-remove_staff-admin",function(req,res){
+    staff.findOneAndDelete({googleId:req.body.staff_id},function(err){
+        res.redirect("back");
+    })
 })
 
 app.listen(5000);

@@ -17,11 +17,11 @@
                     <% } else { %>
                         <div class="row text-success">
                     <% }} else { %>
-                        <div class="row">
+                        <div class="row text-secondary">
                     <% } %>
                             <div class="col-2"><h1><i class="<%- mark[key].icon %>"></i></h1></div>
                             <div class="col-10">
-                                <div><b><%= mark[key].score %></b></div>
+                                <div><b><%= mark[key].score || "Nil" %></b></div>
                                 <div><em><%= key %></em></div>      
                             </div>
                         </div>
