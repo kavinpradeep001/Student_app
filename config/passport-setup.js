@@ -31,7 +31,8 @@ passport.deserializeUser(function(id,done){
         
     })
 })
-    
+
+//Normal sign in from land page    
 passport.use("google-student",new googleStrategy({
     callbackURL : "/auth/profile",
     clientID : key.google.clientID,
@@ -72,6 +73,7 @@ passport.use("google-student",new googleStrategy({
     })
 }))
 
+//Registering staff from admin account
 passport.use("google-staff",new googleStrategy({
     callbackURL : "/auth/profile-staff",
     clientID : key.google.clientID,
