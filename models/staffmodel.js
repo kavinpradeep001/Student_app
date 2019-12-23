@@ -6,6 +6,10 @@ var staffSch = new mang.Schema({
     profession : {
         type : String,
         default : "staff"
+    },
+    degree: {
+        type : String,
+        default : "M.Sc"
     }
 });
 var staff = mang.model("staff",staffSch);

@@ -67,10 +67,7 @@ app.get("/auth/profile",passport.authenticate("google-student"),function(req,res
     }
 })
 app.get("/auth/profile-staff",passport.authenticate("google-staff"),function(req,res){
-    if(req.user.profession === "student"){
-        res.redirect("/auth/profile-info");
-    }
-    else if(req.user.profession === "staff"){
+    if(req.user.profession === "staff"){
         res.redirect("/auth/profile-info-staff");
     }
     else if(req.user.profession === "admin"){
@@ -94,6 +91,8 @@ app.get("/auth/profile-attendance",function(req,res){
 app.get("/auth/profile-attendance1",function(req,res){
     attendance.findOne({stud_id:req.user.googleId},function(err,fAttendance){
         if(fAttendance){
+            console.log(fAttendance.present);
+            console.log(fAttendance.absent);
             res.render("student/attendance1",{attendance:fAttendance});
         }
         else{
@@ -105,15 +104,16 @@ app.get("/auth/profile-attendance1",function(req,res){
 app.get("/auth/profile-mark",function(req,res){
     mark.findOne({stud_id:req.user.googleId},function(err,fMark){
         if(fMark){
-            console.log( typeof fMark);
             var Mark = fMark.toObject();
             res.render("student/mark",{mark:Mark});
         }
         else{
-            console.log( typeof dMark);
             res.render("student/mark",{mark:dMark});
         }  
     })
+})
+app.get("/auth/profile-report",reportcalc,function(req,res){
+    res.render("student/report");
 })
 app.get("/auth/profile-info-admin",function(req,res){
     res.render("admin/info");
@@ -208,4 +208,42 @@ app.post("/auth/profile-remove_staff-admin",function(req,res){
     })
 })
 
-app.listen(5000);
+function reportcalc(req,res,next){
+    attendance.findOne({stud_id:req.user.googleId},function(err,fAttendance){
+        if(fAttendance){
+            res.locals.pAttendance=(fAttendance.present.length/(fAttendance.present.length + fAttendance.absent.length))* 100;
+            mark.findOne({stud_id:req.user.googleId},function(err1,fMark){
+                if(fMark && fMark.tamil.score && fMark.english.score && fMark.maths.score && fMark.science.score && fMark.social.score){
+                    var pMark=((fMark.tamil.score + fMark.english.score + fMark.maths.score + fMark.science.score + fMark.social.score)/5)*2;
+                    res.locals.pMark=pMark;
+                    if(pMark >= 90){
+                        res.locals.grade = "O";
+                    }
+                    else if(pMark >= 80){
+                        res.locals.grade = "A";
+                    }
+                    else if(pMark >= 70){
+                        res.locals.grade = "B";
+                    }
+                    else if(pMark >= 60){
+                        res.locals.grade = "C";
+                    }
+                    else{
+                        res.locals.grade = "D";
+                    }
+                    next();
+                }
+                else{
+                    res.locals.pMark = null;
+                    next();
+                }
+            })
+        }
+        else{
+            res.locals.pAttendance=null;
+            next();
+        }
+    })
+}
+
+app.listen(1000);

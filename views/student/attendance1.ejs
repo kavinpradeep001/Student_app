@@ -5,28 +5,29 @@
                 <a href="/auth/profile-info" class="list-group-item list-group-item-action">Profile</a>
                 <a href="/auth/profile-attendance" class="list-group-item list-group-item-action active">Attendance</a>
                 <a href="/auth/profile-mark" class="list-group-item list-group-item-action">Marks</a>
+                <a href="/auth/profile-report" class="list-group-item list-group-item-action">Report</a>
             </div>
         </div>
         <div class="col-md-9 d-flex justify-content-center">
             <div class="card mb-1" style="width: 90%;">
                 <h1 class="card-title text-center mt-2">Present Days</h1>
                 <div class="card-body container" style="width: 60%;">
-                    <% if(attendance.present !== []){ attendance.present.forEach(function(day){ %>
+                    <% if(attendance.present.length > 0){ attendance.present.forEach(function(day){ %>
                         <ul class="list-group">
                             <li class="list-group-item"><%= day %></li>
                         </ul>
                     <% })} else { %>
-                        <div class="text-center"><em>Nil</em></div>
+                        <div class="text-center"><h4 class="text-secondary"><em>Nil</em></h4></div>
                     <% } %>
                 </div>
                 <h1 class="card-title text-center mt-2">Absent Days</h1>
                 <div class="card-body container" style="width: 60%;">
-                    <% if(attendance.absent !== []){ attendance.absent.forEach(function(day){ %>
+                    <% if(attendance.absent.length > 0){ attendance.absent.forEach(function(day){ %>
                         <ul class="list-group">
                             <li class="list-group-item"><%= day %></li>
                         </ul>
                     <% })} else { %>
-                        <div class="text-center"><em>Nil</em></div>
+                        <div class="text-center"><h4 class="text-secondary"><em>Nil</em></h4></div>
                     <% } %>
                 </div>
             </div>
